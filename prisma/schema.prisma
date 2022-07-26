@@ -8,8 +8,13 @@ datasource db {
 }
 
 model User {
-    id       BigInt  @id(map: "PK_User") @default(autoincrement())
-    name     String
-    username String
-    biyo     String?
+    id         BigInt    @id(map: "PK_User") @default(autoincrement())
+    name       String
+    username   String
+    biyo       String?
+    status     Int       @db.SmallInt
+    createDate DateTime  @default(now()) @db.Timestamp(6)
+    createBy   BigInt    @default(0)
+    updateDate DateTime? @updatedAt() @db.Timestamp(6)
+    updateBy   BigInt?
 }
