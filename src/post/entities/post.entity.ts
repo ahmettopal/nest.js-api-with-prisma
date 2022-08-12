@@ -1,15 +1,15 @@
-import { Post } from 'src/post/entities/post.entity';
+import { User } from 'src/user/entities/user.entity';
 import {Status} from '../../base/enums';
 
-export class User {
+export class Post {
     id : bigint
-    name: string
-    username: string
-    biyo: String
+    image: string
+    description: string
+    userId: bigint
     status: Status
     createDate: Date
     createBy: bigint
     updateDate?: Date
     updateBy?: bigint
-    post: Post[]
+    user: User
 }
