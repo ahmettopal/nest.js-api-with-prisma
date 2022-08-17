@@ -11,10 +11,9 @@ export class UserService {
     constructor(private readonly prismaService: PrismaService) { }
 
     async create(createUserDto: CreateUserDto, payload:TokenPayload){
-        return await this.prismaService.device.create({
+        return await this.prismaService.user.create({
             data: {
                 ...createUserDto,
-                clientId: BigInt(payload.clientId), // will come from token,
                 createBy: BigInt(payload.id), // will come from token,
                 status: Status.active, //will come from enums,
             }
@@ -23,9 +22,8 @@ export class UserService {
 
     async findAll(filters: Filters, payload: TokenPayload) {
         return {
-          data: await this.prismaService.device.findMany({
+          data: await this.prismaService.user.findMany({
             where: {
-              clientId: BigInt(payload.clientId),
               name: {
                 contains: filters.search,
               },
@@ -39,9 +37,8 @@ export class UserService {
               [filters.sort ? filters.sort : 'id']: filters.desc ? 'desc' : 'asc',
             },
           }),
-          count: await this.prismaService.device.count({
+          count: await this.prismaService.user.count({
             where: {
-              clientId: BigInt(payload.clientId),
               name: {
                 contains: filters.search,
               },
@@ -54,7 +51,7 @@ export class UserService {
     };
 
     findOne(id: bigint | number) {
-        return this.prismaService.device.findUnique({
+        return this.prismaService.user.findUnique({
           where: {
             id,
           },
@@ -62,7 +59,7 @@ export class UserService {
     };
 
     update(updateUserDto: UpdateUserDto, payload: TokenPayload) {
-        return this.prismaService.device.update({
+        return this.prismaService.user.update({
           data: {
             ...updateUserDto,
             updateBy: BigInt(payload.id), // will come from token,
@@ -74,7 +71,7 @@ export class UserService {
     };
 
     async remove(id: bigint | number, payload: TokenPayload) {
-        return await this.prismaService.device.update({
+        return await this.prismaService.user.update({
           data: {
             updateBy: BigInt(payload.id), // will come from token,
             status: Status.deleted, //will come from enums,
